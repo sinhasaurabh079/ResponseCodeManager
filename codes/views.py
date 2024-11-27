@@ -119,41 +119,34 @@ def delete_list(request, list_id):
     saved_list.delete()
     return redirect("saved_lists")
 
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import SavedList
+
 
 @login_required
 def edit_list(request, list_id):
-    # Get the saved list by ID and ensure it's the logged-in user's list
     saved_list = get_object_or_404(SavedList, id=list_id, user=request.user)
 
-    # Get the current codes from the SavedList
-    saved_list_codes = [code["code"] for code in saved_list.codes]
-
     if request.method == "POST":
-        # Get selected codes from the form (checkboxes)
-        selected_codes = request.POST.getlist("selected_codes")
+        # Get the list of codes to delete from the form
+        codes_to_delete = request.POST.getlist("delete_codes")
 
-        # Fetch data for selected codes
-        selected_data = [
-            fetch_http_dog_data(code)
-            for code in selected_codes
-            if fetch_http_dog_data(code)
+        # Remove the selected codes from the saved list
+        updated_codes = [
+            code for code in saved_list.codes if code["code"] not in codes_to_delete
         ]
 
-        # Update the saved list with new selected codes
-        saved_list.codes = selected_data
+        # Update the saved list and save it
+        saved_list.codes = updated_codes
         saved_list.save()
 
+        # Redirect back to the saved list detail page
         return redirect("saved_list_detail", list_id=saved_list.id)
-
-    # Fetch all possible response codes for selection
-    codes = ResponseCode.objects.all()
 
     return render(
         request,
         "edit_list.html",
         {
             "saved_list": saved_list,
-            "codes": codes,
-            "saved_list_codes": saved_list_codes,  # List of already selected codes
         },
     )
