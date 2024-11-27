@@ -51,6 +51,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'response_code_manager.urls'
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
 
 TEMPLATES = [
     {
@@ -121,10 +123,9 @@ USE_TZ = True
 # STATICFILES_DIRS = [
 #     BASE_DIR / "codes/static",  # Ensure this includes your app's static directory
 # ]
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles_build", "static")
+STATIC_URL = "/staticfiles/"
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 # Redirect unauthenticated users to this login URL
 LOGIN_URL = "/login/"
 # Default URL to redirect after successful login
