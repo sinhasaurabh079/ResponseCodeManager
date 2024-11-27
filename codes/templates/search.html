@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Search Response Codes{% endblock %}
+
+{% block content %}
+<h2>Search HTTP Response Codes</h2>
+<form method="get" class="mb-3">
+    <div class="input-group">
+        <input type="text" name="filter" id="filter" class="form-control" placeholder="Enter filter (e.g., 2xx)" value="{{ query }}" required />
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+</form>
+
+{% if codes %}
+<h3>Search Results</h3>
+<form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="list_name" class="form-label">Save List Name:</label>
+        <input type="text" name="list_name" id="list_name" class="form-control" required />
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-5">
+        {% for code in codes %}
+        <div class="col mb-4">
+            <div class="card">
+                <img src="{{ code.image_url }}" alt="Dog image for {{ code.code }}" class="card-img-top" height="150" />
+                <div class="card-body">
+                    <h5 class="card-title">{{ code.code }} - {{ code.title }}</h5>
+                   
+                    <div class="form-check mt-2">
+                        <input type="checkbox" class="form-check-input" name="selected_codes" value="{{ code.code }}" />
+                        <label class="form-check-label" for="selected_codes">Select</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <button type="submit" class="btn btn-success mt-3">Save List</button>
+</form>
+{% endif %}
+
+{% if saved_message %}
+<p class="alert alert-success">{{ saved_message }}</p>
+{% endif %}
+{% endblock %}

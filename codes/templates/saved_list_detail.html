@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Saved List Detail{% endblock %}
+
+{% block content %}
+<h2>Saved List: {{ saved_list.name }}</h2>
+<ul>
+    {% for code in saved_list.codes %}
+        <li>
+            <strong>{{ code.code }} - {{ code.title }}</strong><br />
+            <img src="{{ code.image_url }}" alt="Dog image for {{ code.code }}" height="150" width="200" />
+        </li>
+    {% endfor %}
+</ul>
+
+<!-- Delete List Form -->
+<form method="post" action="{% url 'delete_list' saved_list.id %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Delete List</button>
+</form>
+
+<!-- Edit List Link -->
+<a href="{% url 'edit_list' saved_list.id %}" class="btn btn-primary mt-3">Edit List</a>
+{% endblock %}

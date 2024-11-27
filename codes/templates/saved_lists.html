@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Saved Lists{% endblock %}
+
+{% block content %}
+<h2>Your Saved Lists</h2>
+<ul>
+    {% for saved_list in saved_lists %}
+        <li>
+            <a href="{% url 'saved_list_detail' saved_list.id %}">
+                <strong>{{ saved_list.name }}</strong> ({{ saved_list.creation_date|date:"Y-m-d H:i" }})
+            </a>
+            <ul>
+                {% for code in saved_list.codes %}
+                    <li>{{ code.code }} - {{ code.title }}</li>
+                {% endfor %}
+            </ul>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}
