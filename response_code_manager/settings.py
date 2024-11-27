@@ -121,11 +121,9 @@ USE_TZ = True
 # STATICFILES_DIRS = [
 #     BASE_DIR / "codes/static",  # Ensure this includes your app's static directory
 # ]
-STATIC_URL = 'static/'
-# settings.py
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles_build", "static")
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Redirect unauthenticated users to this login URL
 LOGIN_URL = "/login/"
